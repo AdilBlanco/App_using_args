@@ -49,12 +49,30 @@ function commandLineOptions() {
 
 function queryDocument(options) {
     console.log(options)
-    
-    var query = {
-        "grade": {
-            "$gte": options.grade
-        },
-        "assignment": options.assignment
+
+    if (("grade" in options) && ("assignment" in options)) {
+        var query = {
+            "grade": {
+                "$gte": options.grade
+            },
+            "assignment": options.assignment
+        }
+
+    } else if (("grade" in options) && !("assignment" in options)) {
+        var query = {
+            "grade": {
+                "$gte": options.grade
+            }
+        }
+
+    } else if (!("grade" in options) && ("assignment" in options)) {
+        var query = {
+            "assignment": options.assignment
+        }
+        
+    } else {
+        var query = {}
     }
+
     return query
 }
